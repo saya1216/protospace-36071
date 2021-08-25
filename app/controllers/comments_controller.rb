@@ -3,10 +3,10 @@ class CommentsController < ApplicationController
   def create
     @prototype = Prototype.find(params[:prototype_id])
     @comment = @prototype.comments.new(comment_params)
+    @comments = @prototype.comments.includes(:user)
     if @comment.save
       redirect_to "/prototypes/#{@comment.prototype.id}"
     else
-      @comments = @prototype.comments.includes(:user)
       render 'prototypes/show'
     end
   end
